@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Accounts</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2196f3">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+html,body{
+margin:0;
+padding:0;
+overflow-x:hidden;
+touch-action:pan-y;
+font-family:Arial;
+background:#f5f5f5;
+}
+
+/* شاشة التحميل */
+
+.loader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:9999;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:4px solid #ddd;
+border-top:4px solid #2196f3;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
+
+.header{
+background:white;
+padding:15px;
+text-align:center;
+font-weight:bold;
+border-bottom:1px solid #ddd;
+}
+
+.container{
+padding:15px;
+max-width:600px;
+margin:auto;
+}
+
+input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+margin-top:10px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+background:#2196f3;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+}
+
+.card{
+background:white;
+padding:12px;
+margin-top:15px;
+border-radius:12px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+img{
+width:100%;
+border-radius:10px;
+margin-top:5px;
+pointer-events:none;
+}
+
+.hidden{
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="loader" id="loader">
+<div class="spinner"></div>
+<p>جاري تحميل التطبيق...</p>
+</div>
+
+<div class="header">
+<i class="fa-solid fa-lock"></i>
+Accounts
+</div>
+
+<div class="container" id="login">
+
+<input id="code" placeholder="أدخل الكود">
+
+<button onclick="login()">
+<i class="fa-solid fa-right-to-bracket"></i>
+دخول
+</button>
+
+</div>
+
+<div class="container hidden" id="account">
+
+<div id="accountName" class="header"></div>
+
+<button onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+تسجيل خروج
+</button>
+
+<div id="images"></div>
+
+</div>
+
+<script>
+
+window.onload=function(){
+
+setTimeout(()=>{
+document.getElementById("loader").style.display="none"
+},1500)
+
+if(localStorage.getItem("account")){
+openAccount()
+}
+
+}
+
+function login(){
+
+var code=document.getElementById("code").value.trim()
+
+if(code=="gHDms24@5"){
+localStorage.setItem("account","hassoni w9")
+openAccount()
+return
+}
+
+if(code=="kor649@tl"){
+localStorage.setItem("account","la7ya")
+openAccount()
+return
+}
+
+if(code=="cvpa658@es"){
+localStorage.setItem("account","l3azwa pro")
+openAccount()
+return
+}
+
+alert("الكود غير صحيح")
+
+}
+
+function openAccount(){
+
+var account=localStorage.getItem("account")
+
+document.getElementById("login").classList.add("hidden")
+document.getElementById("account").classList.remove("hidden")
+
+document.getElementById("accountName").innerText=account
+
+loadImages()
+
+}
+
+var defaultImages=[
+{
+img:"petit.jpg",
+title:"demaraje der dérict",
+text:"demaraje der dérict"
+},
+{
+img:"ski.jpg",
+title:"demaraje dérict",
+text:"demaraje dérict"
+},
+{
+img:"mas.jpg",
+title:"demaraje 2sons",
+text:"demaraje 2sons"
+}
+]
+
+function loadImages(){
+
+var div=document.getElementById("images")
+
+div.innerHTML=""
+
+defaultImages.forEach(function(item){
+
+var card=document.createElement("div")
+card.className="card"
+
+var title=document.createElement("h3")
+title.innerText=item.title
+
+var image=document.createElement("img")
+image.src=item.img
+
+var text=document.createElement("p")
+text.innerText=item.text
+
+card.appendChild(title)
+card.appendChild(image)
+card.appendChild(text)
+
+div.appendChild(card)
+
+})
+
+}
+
+function logout(){
+localStorage.removeItem("account")
+location.reload()
+}
+
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('sw.js')
+}
+
+</script>
+
+</body>
+</html>
